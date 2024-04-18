@@ -9,8 +9,7 @@ const BlogList = ({ blogs }) => {
       <h1 style={{ textAlign: "center" }}>Blog List</h1>
       <Grid container spacing={3}>
         {blogs.length
-          ? blogs.map((blog) => <Grid item xs={12} md={4} key={blog._id}>
-            
+          ? blogs.map((blog) => <Grid item xs={12} md={4} key={blog._id}>  
             <Blog blog={blog} />
           </Grid>
           ) : "No blog found"}
