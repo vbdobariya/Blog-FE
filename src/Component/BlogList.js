@@ -10,6 +10,7 @@ const BlogList = ({ blogs }) => {
       <Grid container spacing={3}>
         {blogs.length
           ? blogs.map((blog) => <Grid item xs={12} md={4} key={blog._id}>
+            
             <Blog blog={blog} />
           </Grid>
           ) : "No blog found"}
