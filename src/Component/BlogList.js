@@ -1,6 +1,6 @@
 import React from "react";
 import Blog from "./Blog";
-import { Container, Grid } from "@mui/material";
+import { Container, Grid } from "@material-ui/core";
 
 const BlogList = ({ blogs }) => {
 

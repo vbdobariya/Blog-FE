@@ -8,7 +8,7 @@ import {
   Grid,
   Card,
   Container,
-} from "@mui/material";
+} from "@material-ui/core";
 import toast from "react-hot-toast";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
@@ -33,14 +33,14 @@ const MainContainer = styled(Container)({
 });
 
 const LoginPage = () => {
-  const [username, setUsername] = useState("Vivek");
-  const [password, setPassword] = useState("Vivek@123");
+  const [username, setUsername] = useState("");
+  const [password, setPassword] = useState("");
   const navigate = useNavigate();
 
   const handleLogin = async (e) => {
     e.preventDefault();
     try {
-      const response = await axios.post("http://localhost:5000/admin/login", {
+      const response = await axios.post("https://blog-be-woad.vercel.app/api/admin/login", {
         username,
         password,
       });

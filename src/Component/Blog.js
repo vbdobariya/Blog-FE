@@ -1,9 +1,9 @@
-import { Card, CardActions, CardContent, CardMedia, Checkbox, Typography, TextField, IconButton, Box, InputAdornment } from "@mui/material";
+import { Card, CardActions, CardContent, CardMedia, Checkbox, Typography, TextField, IconButton, Box, InputAdornment } from "@material-ui/core";
 import React from "react";
-import FavoriteBorderIcon from '@mui/icons-material/FavoriteBorder';
-import FavoriteIcon from '@mui/icons-material/Favorite';
-import ShareIcon from '@mui/icons-material/Share';
-import SendIcon from '@mui/icons-material/Send';
+import FavoriteBorderIcon from '@material-ui/icons/FavoriteBorder';
+import FavoriteIcon from '@material-ui/icons/Favorite';
+import ShareIcon from '@material-ui/icons/Share';
+import SendIcon from '@material-ui/icons/Send';
 
 const Blog = ({ blog }) => {
   return (

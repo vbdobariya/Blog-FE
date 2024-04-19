@@ -14,10 +14,10 @@ import {
   TableHead,
   TableRow,
   Typography,
-} from "@mui/material";
+} from "@material-ui/core";
 import { deleteBlog, getAllBlogs } from "../services/api";
-import EditIcon from "@mui/icons-material/Edit";
-import DeleteIcon from "@mui/icons-material/Delete";
+import EditIcon from "@material-ui/icons/Edit";
+import DeleteIcon from "@material-ui/icons/Delete";
 import { useNavigate } from "react-router-dom";
 
 const AdminPage = () => {

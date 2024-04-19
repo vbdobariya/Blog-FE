@@ -13,7 +13,7 @@ import {
   MenuItem,
   Select,
   TextField,
-} from "@mui/material";
+} from "@material-ui/core";
 
 const AddBlogForm = (props) => {
   const { open, handleClose, title, onLoad, singleData } = props;
