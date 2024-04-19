@@ -4,6 +4,7 @@ import React, { lazy } from 'react';
 import { Redirect } from 'react-router-dom';
 
 import AuthLayout from './layouts/Auth';
+import RequireAuthAdmin from './RequireAuthAdmin';
 
 const routes = [
   {
@@ -28,7 +29,7 @@ const routes = [
       {
         path: '/admin/dashboard',
         exact: true,
-        component: lazy(() => import('./page/AdminPage'))
+        component: RequireAuthAdmin(lazy(() => import('./page/AdminPage')))
       }
     ]
   },
