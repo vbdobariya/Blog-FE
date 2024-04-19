@@ -9,7 +9,7 @@ const Blog = ({ blog }) => {
   return (
     <Card>
       {blog.imageUrl && <CardMedia
-        sx={{ height: 200 }}
+        style={{ height: 200 }}
         image={blog.imageUrl}
         title="green iguana"
       />}
@@ -20,7 +20,7 @@ const Blog = ({ blog }) => {
         style={{ width: "100%", height: 200, objectFit: 'fill' }}
       />}
       {blog.gifUrl && <CardMedia
-        sx={{ height: 200 }}
+        style={{ height: 200 }}
         image={blog.gifUrl}
         title="green iguana"
       />}

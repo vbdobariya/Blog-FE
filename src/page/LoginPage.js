@@ -11,7 +11,8 @@ import {
 } from "@material-ui/core";
 import toast from "react-hot-toast";
 import axios from "axios";
-import { useNavigate } from "react-router-dom";
+import { useHistory } from "react-router-dom";
+
 
 const MainContainer = styled(Container)({
   height: "100vh",
@@ -35,7 +36,8 @@ const MainContainer = styled(Container)({
 const LoginPage = () => {
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
-  const navigate = useNavigate();
+  const history = useHistory();
+
 
   const handleLogin = async (e) => {
     e.preventDefault();
@@ -47,7 +49,7 @@ const LoginPage = () => {
       if (response.data.status) {
         toast.success("Login Successfully");
         localStorage.setItem("authtoken", response.data.token);
-        navigate("/admin/dashboard");
+        history.push("/admin/dashboard");
       } else {
         toast.error("Login Faild");
       }

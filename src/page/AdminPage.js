@@ -18,7 +18,7 @@ import {
 import { deleteBlog, getAllBlogs } from "../services/api";
 import EditIcon from "@material-ui/icons/Edit";
 import DeleteIcon from "@material-ui/icons/Delete";
-import { useNavigate } from "react-router-dom";
+import { useHistory } from "react-router-dom";
 
 
 const AdminPage = () => {
@@ -26,7 +26,7 @@ const AdminPage = () => {
   const [allblogs, setAllBlogs] = useState([]);
   const [setName, setSetName] = useState("");
   const [singleData, setSingleData] = useState({});
-  const navigate = useNavigate();
+  const history = useHistory();
 
   const AddModelOpen = () => {
     setIsFormOpen(true);
@@ -66,7 +66,7 @@ const AdminPage = () => {
     }
   };
   const BlogPage = () => {
-    navigate("/");
+    history.push("/");
   }
 
   return (
