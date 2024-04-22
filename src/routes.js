@@ -27,9 +27,24 @@ const routes = [
         component: lazy(() => import('./page/LoginPage'))
       },
       {
+        path: '/login',
+        exact: true,
+        component: lazy(() => import('./page/LoginPage'))
+      },
+      {
+        path: '/register',
+        exact: true,
+        component: lazy(() => import('./page/LoginPage'))
+      },
+      {
         path: '/admin/dashboard',
         exact: true,
         component: RequireAuthAdmin(lazy(() => import('./page/AdminPage')))
+      },
+      {
+        path: '/blog/:id',
+        exact: true,
+        component: RequireAuthAdmin(lazy(() => import('./page/BlogPage')))
       }
     ]
   },

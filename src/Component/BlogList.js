@@ -7,12 +7,14 @@ const BlogList = ({ blogs }) => {
   return (
     <Container>
       <h1 style={{ textAlign: "center" }}>Blog List</h1>
-      <Grid container spacing={3}>
-        {blogs.length
-          ? blogs.map((blog) => <Grid item xs={12} md={4} key={blog._id}>  
-            <Blog blog={blog} />
-          </Grid>
-          ) : "No blog found"}
+      <Grid container spacing={3} justifyContent="center">
+        <Grid container spacing={3} item xs={12} md={6}>
+          {blogs.length
+            ? blogs.map((blog) => <Grid item xs={12} key={blog._id}>
+              <Blog blog={blog} />
+            </Grid>
+            ) : "No blog found"}
+        </Grid>
       </Grid>
     </Container>
   );

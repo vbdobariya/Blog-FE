@@ -1,6 +1,6 @@
 import axios from "axios";
 
-const API_URL = "https://blog-be-woad.vercel.app/api/blogs";
+const API_URL = `${process.env.REACT_APP_API_URL}api/blogs`;
 
 // Get all blogs
 export const getAllBlogs = async () => {

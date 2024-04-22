@@ -72,7 +72,7 @@ const AdminPage = () => {
   return (
     <div>
       <h1 style={{ textAlign: "center" }}>Admin Page</h1>
-      <Container>
+      <Container maxWidth="xl">
         <Box sx={{ my: 2 }}>
           <Grid container justifyContent={"flex-end"}>
             <Grid item>
@@ -106,8 +106,8 @@ const AdminPage = () => {
                 >
                   <TableCell component="th" scope="row">
                     <Typography
-                      sx={{
-                        width: 200,
+                      style={{
+                        maxWidth: 200,
                         wordBreak: "break-all",
                         whiteSpace: "nowrap",
                         textOverflow: "ellipsis",
@@ -119,8 +119,8 @@ const AdminPage = () => {
                   </TableCell>
                   <TableCell>
                     <Typography
-                      sx={{
-                        width: 250,
+                      style={{
+                        maxWidth: 200,
                         wordBreak: "break-all",
                         whiteSpace: "nowrap",
                         textOverflow: "ellipsis",
@@ -132,38 +132,39 @@ const AdminPage = () => {
                   </TableCell>
                   <TableCell>
                     <Typography
-                      sx={{
-                        width: 250,
+                      style={{
+                        maxWidth: 200,
                         wordBreak: "break-all",
                         whiteSpace: "nowrap",
                         textOverflow: "ellipsis",
                         overflow: "hidden",
                       }}
                     >
-                      {row.imageUrl}
+                      {row.imageUrl ? row.imageUrl : "N/A"}
                     </Typography>
                   </TableCell>
                   <TableCell
-                    sx={{
-                      width: 250,
+                    style={{
+                      maxWidth: 200,
                       wordBreak: "break-all",
                       whiteSpace: "nowrap",
                       textOverflow: "ellipsis",
                       overflow: "hidden",
                     }}
                   >
-                    {row.gifUrl}
+                    {row.gifUrl ? row.gifUrl : "N/A"}
                   </TableCell>
                   <TableCell
-                    sx={{
-                      width: 250,
+                    style={{
+                      maxWidth: 200,
+                      minWidth: 200,
                       wordBreak: "break-all",
                       whiteSpace: "nowrap",
                       textOverflow: "ellipsis",
                       overflow: "hidden",
                     }}
                   >
-                    {row.videoUrl}
+                    {row.videoUrl ? row.videoUrl : "N/A"}
                   </TableCell>
                   <TableCell>
                     <Box display={"flex"} flexDirection={"row"}>
