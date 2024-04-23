@@ -44,7 +44,7 @@ const routes = [
       {
         path: '/blog/:id',
         exact: true,
-        component: RequireAuthAdmin(lazy(() => import('./page/BlogPage')))
+        component: lazy(() => import('./page/BlogPage'))
       }
     ]
   },

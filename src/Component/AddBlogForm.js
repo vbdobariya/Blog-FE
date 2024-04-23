@@ -30,19 +30,19 @@ const AddBlogForm = (props) => {
 
   useEffect(() => {
     setFormData({
-      title: singleData.title,
-      description: singleData.description,
-      imageUrl: singleData.imageUrl,
-      videoUrl: singleData.videoUrl,
-      gifUrl: singleData.gifUrl,
+      title: singleData?.title,
+      description: singleData?.description,
+      imageUrl: singleData?.imageUrl,
+      videoUrl: singleData?.videoUrl,
+      gifUrl: singleData?.gifUrl,
     });
-    if (singleData.videoUrl) {
+    if (singleData?.videoUrl) {
       setSelectValue("video")
     }
-    if (singleData.imageUrl) {
+    if (singleData?.imageUrl) {
       setSelectValue("image")
     }
-    if (singleData.gifUrl) {
+    if (singleData?.gifUrl) {
       setSelectValue("gif")
     }
   }, [singleData]);

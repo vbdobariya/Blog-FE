@@ -4,9 +4,9 @@ import BlogList from "../Component/BlogList";
 
 const HomePage = () => {
   const [blogs, setBlogs] = useState([]);
-
   useEffect(() => {
     fetchBlogs();
+    localStorage.removeItem("adminauthtoken");
   }, []);
 
   const fetchBlogs = async () => {
@@ -20,7 +20,7 @@ const HomePage = () => {
 
   return (
     <div>
-      <BlogList blogs={blogs} />
+      <BlogList blogs={blogs} onload={fetchBlogs}/>
     </div>
   );
 };

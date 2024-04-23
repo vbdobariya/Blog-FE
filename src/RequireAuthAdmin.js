@@ -5,7 +5,7 @@ export default function requireAuthAdmin(ComposedComponent) {
 
   class RequireAuthAdmin extends Component {
     state = {
-      authToken: localStorage.getItem('authtoken'),
+      authToken: localStorage.getItem('adminauthtoken'),
     }
 
     componentWillMount() {

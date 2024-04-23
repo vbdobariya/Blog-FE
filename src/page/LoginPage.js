@@ -19,7 +19,6 @@ import { useHistory } from "react-router-dom";
 import { useLocation } from "react-router";
 import bgImg from "../image/bgImg.jpg"
 import logo from "../image/blog_logo.png"
-import { ThemeProvider, createTheme } from '@material-ui/core/styles';
 import VisibilityIcon from '@material-ui/icons/Visibility';
 import VisibilityOffIcon from '@material-ui/icons/VisibilityOff';
 
@@ -38,17 +37,6 @@ const MainContainer = styled(Container)({
   },
   "& .error": {
     color: "red",
-  },
-});
-
-const theme = createTheme({
-  typography: {
-    fontFamily: "Poppins"
-  },
-  palette: {
-    primary: {
-      main: "#445045",
-    }
   },
 });
 
@@ -80,7 +68,7 @@ const LoginPage = () => {
       });
       if (response.data.status) {
         toast.success(response.data.message);
-        localStorage.setItem("authtoken", response.data.token);
+        localStorage.setItem("adminauthtoken", response.data.token);
         history.push("/admin/dashboard");
       } else {
         toast.error(response.data.message);
@@ -122,6 +110,7 @@ const LoginPage = () => {
         if (response.data.status) {
           onClickRemember()
           localStorage.setItem("authtoken", response.data.token);
+          localStorage.setItem("user", JSON.stringify(response.data.user));
           toast.success(response.data.message);
           history.push("/");
         } else {
@@ -162,146 +151,144 @@ const LoginPage = () => {
   }
 
   return (
-    <ThemeProvider theme={theme}>
-      <Box sx={{
-        backgroundImage: `url(${bgImg})`,
-        backgroundPosition: "center",
-        backgroundSize: "cover",
-        backgroundRepeat: "no-repeat"
-      }}>
-        <MainContainer maxWidth="xs">
-          <form onSubmit={onCallApiEnter}>
-            <Card className="card-contant">
-              <Grid container spacing={3}>
-                <Grid item xs={12}>
-                  <Typography variant="h4" className="main-title"
-                    style={{
-                      display: "flex",
-                      flexDirection: "column-reverse",
-                      alignItems: "center",
-                      fontWeight: 600,
-                      color: "#445045"
-                    }}>
-                    {location.pathname === "/register" ? "Sign Up" : "Sign In"}
-                    <img src={logo} style={{ height: 40 }} alt="logo"/>
-                  </Typography>
-                </Grid>
-                <Grid item xs={12}>
-                  <TextField
-                    fullWidth
-                    label="Username"
-                    value={username}
-                    onChange={(e) => setUsername(e.target.value)}
-                    required
-                    variant="outlined"
-                  />
-                </Grid>
-                <Grid item xs={12}>
-                  <TextField
-                    fullWidth
-                    type={visble ? 'text' : 'password'}
-                    label="Password"
-                    value={password}
-                    onChange={(e) => setPassword(e.target.value)}
-                    required
-                    variant="outlined"
-                    InputProps={{
-                      endAdornment: (
-                        < InputAdornment position="end" >
-                          <IconButton
-                            aria-label="toggle password visibility"
-                            onClick={handleClickShowPassword}
-                          >
-                            {visble ? <VisibilityOffIcon /> : <VisibilityIcon />}
-                          </IconButton>
-                        </InputAdornment>
-                      )
-                    }}
-                  />
-                </Grid>
-                {(location.pathname === "/login") && <Grid item xs={12}>
-                  <FormControlLabel
-                    style={{ width: "100%" }}
-                    control={
-                      <Checkbox
-                        checked={checked}
-                        name="checkedB"
-                        color="primary"
-                        onChange={(event) => setChecked(event.target.checked)}
-                      />
-                    }
-                    label={<Typography> Remember Me</Typography>}
-                  />
-                </Grid>}
-                {location.pathname === "/admin/login" && <Grid item xs={12}>
-                  <Button
-                    fullWidth
-                    type="submit"
-                    variant="contained"
-                    color="primary"
-                    size="large"
-                  >
-                    Login
-                  </Button>
-                </Grid>}
-                {(location.pathname === "/register") &&
-                  <>
-                    <Grid item xs={6}>
-                      <Button
-                        fullWidth
-                        variant="contained"
-                        color="primary"
-                        size="large"
-                        onClick={() => history.push("/login")}
-                      >
-                        Login
-                      </Button>
-                    </Grid>
-                    <Grid item xs={6}>
-                      <Button
-                        fullWidth
-                        type="submit"
-                        variant="contained"
-                        color="primary"
-                        size="large"
-                      >
-                        Register
-                      </Button>
-                    </Grid>
-                  </>
-                }
-                {(location.pathname === "/login") &&
-                  <>
-                    <Grid item xs={6}>
-                      <Button
-                        fullWidth
-                        onClick={() => history.push("/register")}
-                        variant="contained"
-                        color="primary"
-                        size="large"
-                      >
-                        Register
-                      </Button>
-                    </Grid>
-                    <Grid item xs={6}>
-                      <Button
-                        fullWidth
-                        type="submit"
-                        variant="contained"
-                        color="primary"
-                        size="large"
-                      >
-                        Login
-                      </Button>
-                    </Grid>
-                  </>
-                }
+    <Box sx={{
+      backgroundImage: `url(${bgImg})`,
+      backgroundPosition: "center",
+      backgroundSize: "cover",
+      backgroundRepeat: "no-repeat"
+    }}>
+      <MainContainer maxWidth="xs">
+        <form onSubmit={onCallApiEnter}>
+          <Card className="card-contant">
+            <Grid container spacing={3}>
+              <Grid item xs={12}>
+                <Typography variant="h4" className="main-title"
+                  style={{
+                    display: "flex",
+                    flexDirection: "column-reverse",
+                    alignItems: "center",
+                    fontWeight: 600,
+                    color: "#445045"
+                  }}>
+                  {location.pathname === "/register" ? "Sign Up" : "Sign In"}
+                  <img src={logo} style={{ height: 40 }} alt="logo" />
+                </Typography>
               </Grid>
-            </Card>
-          </form>
-        </MainContainer>
-      </Box>
-    </ThemeProvider >
+              <Grid item xs={12}>
+                <TextField
+                  fullWidth
+                  label="Username"
+                  value={username}
+                  onChange={(e) => setUsername(e.target.value)}
+                  required
+                  variant="outlined"
+                />
+              </Grid>
+              <Grid item xs={12}>
+                <TextField
+                  fullWidth
+                  type={visble ? 'text' : 'password'}
+                  label="Password"
+                  value={password}
+                  onChange={(e) => setPassword(e.target.value)}
+                  required
+                  variant="outlined"
+                  InputProps={{
+                    endAdornment: (
+                      < InputAdornment position="end" >
+                        <IconButton
+                          aria-label="toggle password visibility"
+                          onClick={handleClickShowPassword}
+                        >
+                          {visble ? <VisibilityOffIcon /> : <VisibilityIcon />}
+                        </IconButton>
+                      </InputAdornment>
+                    )
+                  }}
+                />
+              </Grid>
+              {(location.pathname === "/login") && <Grid item xs={12}>
+                <FormControlLabel
+                  style={{ width: "100%" }}
+                  control={
+                    <Checkbox
+                      checked={checked}
+                      name="checkedB"
+                      color="primary"
+                      onChange={(event) => setChecked(event.target.checked)}
+                    />
+                  }
+                  label={<Typography> Remember Me</Typography>}
+                />
+              </Grid>}
+              {location.pathname === "/admin/login" && <Grid item xs={12}>
+                <Button
+                  fullWidth
+                  type="submit"
+                  variant="contained"
+                  color="primary"
+                  size="large"
+                >
+                  Login
+                </Button>
+              </Grid>}
+              {(location.pathname === "/register") &&
+                <>
+                  <Grid item xs={6}>
+                    <Button
+                      fullWidth
+                      variant="contained"
+                      color="primary"
+                      size="large"
+                      onClick={() => history.push("/login")}
+                    >
+                      Login
+                    </Button>
+                  </Grid>
+                  <Grid item xs={6}>
+                    <Button
+                      fullWidth
+                      type="submit"
+                      variant="contained"
+                      color="primary"
+                      size="large"
+                    >
+                      Register
+                    </Button>
+                  </Grid>
+                </>
+              }
+              {(location.pathname === "/login") &&
+                <>
+                  <Grid item xs={6}>
+                    <Button
+                      fullWidth
+                      onClick={() => history.push("/register")}
+                      variant="contained"
+                      color="primary"
+                      size="large"
+                    >
+                      Register
+                    </Button>
+                  </Grid>
+                  <Grid item xs={6}>
+                    <Button
+                      fullWidth
+                      type="submit"
+                      variant="contained"
+                      color="primary"
+                      size="large"
+                    >
+                      Login
+                    </Button>
+                  </Grid>
+                </>
+              }
+            </Grid>
+          </Card>
+        </form>
+      </MainContainer>
+    </Box>
   );
 };
 

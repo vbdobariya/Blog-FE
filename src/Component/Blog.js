@@ -1,51 +1,103 @@
-import { Card, CardActions, CardContent, CardMedia, Checkbox, Typography, TextField, IconButton, Box, InputAdornment, Link, Avatar } from "@material-ui/core";
-import React from "react";
+import { Card, CardActions, CardContent, CardMedia, Checkbox, Typography, IconButton, Box, Link, Avatar } from "@material-ui/core";
+import React, { useEffect, useState } from "react";
 import FavoriteBorderIcon from '@material-ui/icons/FavoriteBorder';
 import FavoriteIcon from '@material-ui/icons/Favorite';
 import ShareIcon from '@material-ui/icons/Share';
-import SendIcon from '@material-ui/icons/Send';
 import MoreHorizIcon from '@material-ui/icons/MoreHoriz';
 import { useHistory } from "react-router-dom";
+import ChatBubbleOutlineIcon from '@material-ui/icons/ChatBubbleOutline';
+import { likeBlog } from "../services/api";
 
-const Blog = ({ blog }) => {
+const Blog = ({ blog, onload }) => {
   const history = useHistory();
+  const [liked, setLiked] = useState(false)
+
+  const userData = JSON.parse(localStorage.getItem("user"))
+
+  useEffect(() => {
+    if (userData?._id) {
+      const data = blog.likesUser.filter((obj) => obj.user === userData._id)
+      if (data.length) {
+        setLiked(true)
+      }
+    }
+    // eslint-disable-next-line
+  }, [])
 
   const NavigateToBlogPage = () => {
     history.push(`/blog/${blog._id}`);
+  }
+
+  const capitalizeFirstLetter = (name) => {
+    return name?.charAt(0).toUpperCase();
+  }
+
+  const onChangeLike = (event) => {
+    const token = localStorage.getItem("authtoken")
+    if (token) {
+      setLiked(event.target.checked);
+      fetchLiked(event.target.checked)
+    } else {
+      history.push("/login");
+    }
+  }
+
+  const fetchLiked = async (value) => {
+    try {
+      const response = await likeBlog(blog._id, { "like": value });
+      console.log(response.success, "response");
+      if (response.success) {
+        onload()
+      }
+    } catch (error) {
+      console.error("Error fetching blogs:", error);
+    }
+  };
+
+  const onClickCommentRedirect = (event) => {
+    const token = localStorage.getItem("authtoken")
+    if (!token) {
+      history.push("/login");
+    } else {
+      NavigateToBlogPage()
+    }
   }
 
   return (
     <Card>
       <CardActions>
         <Box sx={{ display: "flex", width: "100%", alignItems: 'center', gridGap: 10 }}>
-          <Avatar>V</Avatar>
+          <Avatar>{capitalizeFirstLetter(blog?.authorname)}</Avatar>
           <Typography>
-            Vivek
+            {blog?.authorname}
           </Typography>
         </Box>
         <IconButton>
           <MoreHorizIcon />
         </IconButton>
       </CardActions>
-      {blog.imageUrl && <CardMedia
-        style={{ height: 250 }}
-        image={blog.imageUrl}
-        title="green iguana"
-      />}
-      {blog.videoUrl && <video
-        playsInline
-        src={blog.videoUrl}
-        autoPlay
-        controls={true}
-        muted={true}
-        style={{ width: "100%", height: 250, objectFit: 'contain', backgroundColor: 'black' }}
-      />}
-      {blog.gifUrl && <CardMedia
-        style={{ height: 250 }}
-        image={blog.gifUrl}
-        title="green iguana"
-      />}
-      <CardContent>
+      {blog.imageUrl &&
+        <CardMedia
+          style={{ height: 250, cursor: 'pointer' }}
+          image={blog.imageUrl}
+          onClick={NavigateToBlogPage}
+        />}
+      {blog.videoUrl &&
+        <video
+          playsInline
+          src={blog.videoUrl}
+          autoPlay
+          controls={true}
+          muted={true}
+          style={{ width: "100%", height: 250, objectFit: 'contain', backgroundColor: 'black' }}
+        />}
+      {blog.gifUrl &&
+        <CardMedia
+          style={{ height: 250, cursor: 'pointer' }}
+          image={blog.gifUrl}
+          onClick={NavigateToBlogPage}
+        />}
+      <CardContent style={{ padding: "16px 16px 0 16px", cursor: 'pointer' }} onClick={NavigateToBlogPage}>
         <Typography gutterBottom variant="h5" component="div" noWrap>
           {blog.title}
         </Typography>
@@ -58,33 +110,33 @@ const Blog = ({ blog }) => {
         }}>
           {blog.description}
         </Typography>
-        <Link
-          variant="contained"
-          color="primary"
-          onClick={NavigateToBlogPage}
-          style={{ display: 'flex', justifyContent: 'flex-end', fontWeight: '500', marginTop: 10, cursor: "pointer" }}
-        >
-          See More
-        </Link>
+        <Box sx={{
+          display: "flex",
+          alignItems: "center",
+          justifyContent: "space-between",
+          marginTop: 10,
+        }}>
+          <Typography variant="body2" color="text.secondary" style={{ fontWeight: 500 }}>
+            {blog.likes} {blog.likes > 1 ? "Likes" : "Like"} {blog.comment.length} {blog.comment.length >= 2 ? "comments" : "comment"}
+          </Typography>
+          <Link
+            variant="contained"
+            color="primary"
+            onClick={NavigateToBlogPage}
+            style={{ display: 'flex', justifyContent: 'flex-end', fontWeight: '500', cursor: "pointer" }}
+          >
+            See More
+          </Link>
+        </Box>
       </CardContent>
       <CardActions>
-        <Box sx={{ display: "flex", width: "100%", alignItems: 'center' }}>
-          <Checkbox icon={<FavoriteBorderIcon />} checkedIcon={<FavoriteIcon color="error" />} />
-          <TextField
-            variant="outlined"
-            size="small"
-            fullWidth
-            placeholder="comment"
-            InputProps={{
-              endAdornment: (
-                <InputAdornment position="end">
-                  <IconButton>
-                    <SendIcon />
-                  </IconButton>
-                </InputAdornment>
-              )
-            }}
-          />
+        <Box sx={{ display: "flex", width: "100%", alignItems: 'center', justifyContent: "space-between" }}>
+          <Box>
+            <Checkbox icon={<FavoriteBorderIcon />} checkedIcon={<FavoriteIcon color="error" />} checked={liked} onChange={onChangeLike} />
+            <IconButton onClick={onClickCommentRedirect}>
+              <ChatBubbleOutlineIcon />
+            </IconButton>
+          </Box>
           <IconButton>
             <ShareIcon />
           </IconButton>
