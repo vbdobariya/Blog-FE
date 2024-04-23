@@ -1,4 +1,4 @@
-import { Card, CardActions, CardContent, CardMedia, Checkbox, Typography, IconButton, Box, Link, Avatar } from "@material-ui/core";
+import { Card, CardActions, CardContent, CardMedia, Checkbox, Typography, IconButton, Box, Link, Avatar, Menu, MenuItem } from "@material-ui/core";
 import React, { useEffect, useState } from "react";
 import FavoriteBorderIcon from '@material-ui/icons/FavoriteBorder';
 import FavoriteIcon from '@material-ui/icons/Favorite';
@@ -6,11 +6,15 @@ import ShareIcon from '@material-ui/icons/Share';
 import MoreHorizIcon from '@material-ui/icons/MoreHoriz';
 import { useHistory } from "react-router-dom";
 import ChatBubbleOutlineIcon from '@material-ui/icons/ChatBubbleOutline';
-import { likeBlog } from "../services/api";
+import { deleteBlog, likeBlog } from "../services/api";
 
 const Blog = ({ blog, onload }) => {
   const history = useHistory();
   const [liked, setLiked] = useState(false)
+  const [anchorEl, setAnchorEl] = useState(null);
+  const open = Boolean(anchorEl);
+
+  const ITEM_HEIGHT = 48;
 
   const userData = JSON.parse(localStorage.getItem("user"))
 
@@ -21,7 +25,6 @@ const Blog = ({ blog, onload }) => {
         setLiked(true)
       }
     }
-    // eslint-disable-next-line
   }, [])
 
   const NavigateToBlogPage = () => {
@@ -63,6 +66,24 @@ const Blog = ({ blog, onload }) => {
     }
   }
 
+  const handleOnDelete = async (id) => {
+    try {
+      await deleteBlog(id);
+      onload();
+      handleClose()
+    } catch (error) {
+      console.error("Error adding blog:", error);
+    }
+  };
+
+  const handleClose = () => {
+    setAnchorEl(null);
+  };
+
+  const handleClick = (event) => {
+    setAnchorEl(event.currentTarget);
+  };
+
   return (
     <Card>
       <CardActions>
@@ -72,9 +93,39 @@ const Blog = ({ blog, onload }) => {
             {blog?.authorname}
           </Typography>
         </Box>
-        <IconButton>
+        <IconButton onClick={handleClick}>
           <MoreHorizIcon />
         </IconButton>
+        <Menu
+          id="long-menu"
+          anchorEl={anchorEl}
+          keepMounted
+          open={open}
+          getContentAnchorEl={null}
+          onClose={handleClose}
+          anchorOrigin={{
+            vertical: 'bottom',
+            horizontal: 'center',
+          }}
+          transformOrigin={{
+            vertical: 'top',
+            horizontal: 'center',
+          }}
+          PaperProps={{
+            style: {
+              maxHeight: ITEM_HEIGHT * 4.5,
+              width: '20ch',
+            },
+          }}
+        >
+          <MenuItem onClick={handleClose}>Report</MenuItem>
+          {blog?.author === userData?._id &&
+            <>
+              <MenuItem onClick={handleClose}>Edit</MenuItem>
+              <MenuItem onClick={() => handleOnDelete(blog?._id)}>Delete</MenuItem>
+            </>
+          }
+        </Menu>
       </CardActions>
       {blog.imageUrl &&
         <CardMedia

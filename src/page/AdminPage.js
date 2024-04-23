@@ -65,6 +65,7 @@ const AdminPage = () => {
       console.error("Error adding blog:", error);
     }
   };
+
   const BlogPage = () => {
     history.push("/");
   }

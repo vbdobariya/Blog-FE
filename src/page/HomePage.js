@@ -20,7 +20,7 @@ const HomePage = () => {
 
   return (
     <div>
-      <BlogList blogs={blogs} onload={fetchBlogs}/>
+      <BlogList blogs={blogs} onload={fetchBlogs} />
     </div>
   );
 };
