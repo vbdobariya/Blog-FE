@@ -69,6 +69,7 @@ const LoginPage = () => {
       if (response.data.status) {
         toast.success(response.data.message);
         localStorage.setItem("adminauthtoken", response.data.token);
+        localStorage.setItem("user", JSON.stringify(response.data.user));
         history.push("/admin/dashboard");
       } else {
         toast.error(response.data.message);
