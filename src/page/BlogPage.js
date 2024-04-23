@@ -1,13 +1,16 @@
 import React, { useEffect, useState } from 'react'
-import { useParams } from 'react-router'
+import { useHistory, useParams } from 'react-router'
 import { commentsBlog, getBlogById } from "../services/api";
 import { Avatar, Box, CardMedia, Dialog, DialogContent, Grid, IconButton, InputAdornment, TextField, Typography } from '@material-ui/core';
 import MoreHorizIcon from '@material-ui/icons/MoreHoriz';
 import SendIcon from '@material-ui/icons/Send';
+import CloseIcon from '@material-ui/icons/Close';
 
 function BlogPage() {
+  const history = useHistory()
   const [blogs, setBlogs] = useState({});
   const [comment, setComment] = useState("");
+  const [close, setClose] = useState(true);
   const { id } = useParams()
 
   useEffect(() => {
@@ -41,10 +44,23 @@ function BlogPage() {
     }
   }
 
+  const onClose = () => {
+    setClose(false)
+    history.goBack()
+  }
+
   return (
-    <Dialog open={true}
+    <Dialog
+      open={close}
       fullWidth
-      maxWidth={"lg"}>
+      maxWidth={"lg"}
+      onClose={onClose}
+    >
+      <Box sx={{ textAlign: "end" }}>
+        <IconButton aria-label="close" onClick={onClose}>
+          <CloseIcon />
+        </IconButton>
+      </Box>
       <div style={{ marginTop: 20 }}>
         <DialogContent style={{ overflow: "hidden" }}>
           <Grid container spacing={10}>
@@ -75,7 +91,7 @@ function BlogPage() {
                 alignItems: 'center',
                 justifyContent: "space-between",
                 width: "100%",
-                height: "100%",
+                height: "calc(100vh - 150px)",
               }}>
                 <Box sx={{ display: "flex", width: "100%", alignItems: 'center', gridGap: 10, marginBottom: 20, marginTop: 20, borderBottom: "1px solid #445045" }}>
                   <Box sx={{ display: "flex", width: "100%", alignItems: 'center', gridGap: 10 }}>
@@ -93,7 +109,8 @@ function BlogPage() {
                   height: "100%",
                   display: 'flex',
                   flexDirection: 'column',
-                  gap: 10
+                  overflow: "auto",
+                  gap: 10,
                 }}>
                   {blogs?.comment?.length ? blogs.comment.map((obj) => {
                     return (
@@ -116,7 +133,7 @@ function BlogPage() {
                     }}>No Comment Yet.</Typography>
                   )}
                 </Box>
-                <Box sx={{ width: "100%", marginBottom: 20, }}>
+                <Box sx={{ width: "100%", marginBottom: 20, marginTop: 20 }}>
                   <TextField
                     variant="outlined"
                     size="small"
