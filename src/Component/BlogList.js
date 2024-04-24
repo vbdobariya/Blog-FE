@@ -1,10 +1,10 @@
 import React, { useState } from "react";
 import Blog from "./Blog";
-import { Box, Button, Container, Grid } from "@material-ui/core";
+import { Box, Button, CircularProgress, Container, Grid } from "@material-ui/core";
 import AddBlogForm from "./AddBlogForm";
 import { useHistory } from "react-router";
 
-const BlogList = ({ blogs, onload }) => {
+const BlogList = ({ blogs, onload, loading }) => {
   const history = useHistory();
   const [isFormOpen, setIsFormOpen] = useState(false);
 
@@ -33,15 +33,26 @@ const BlogList = ({ blogs, onload }) => {
         onLoad={onload}
       />
       <h1 style={{ textAlign: "center" }}>Blog List</h1>
-      <Grid container spacing={3} justifyContent="center">
-        <Grid container spacing={3} item xs={12} md={6}>
-          {blogs.length
-            ? blogs.map((blog) => <Grid item xs={12} key={blog._id}>
-              <Blog blog={blog} onload={onload} />
-            </Grid>
-            ) : "No blog found"}
+      {loading ? (
+        <Box sx={{
+          display: "flex",
+          alignItems: "center",
+          justifyContent: "center",
+          height: '86vh'
+        }}>
+          <CircularProgress />
+        </Box>
+      ) : (
+        <Grid container spacing={3} justifyContent="center">
+          <Grid container spacing={3} item xs={12} md={6}>
+            {blogs.length
+              ? blogs.map((blog) => <Grid item xs={12} key={blog._id}>
+                <Blog blog={blog} onload={onload} />
+              </Grid>
+              ) : "No blog found"}
+          </Grid>
         </Grid>
-      </Grid>
+      )}
     </Container>
   );
 };

@@ -7,10 +7,14 @@ import MoreHorizIcon from '@material-ui/icons/MoreHoriz';
 import { useHistory } from "react-router-dom";
 import ChatBubbleOutlineIcon from '@material-ui/icons/ChatBubbleOutline';
 import { deleteBlog, likeBlog } from "../services/api";
+import AddBlogForm from "./AddBlogForm";
+import ShareBox from "./ShareBox";
 
 const Blog = ({ blog, onload }) => {
   const history = useHistory();
   const [liked, setLiked] = useState(false)
+  const [isFormOpen, setIsFormOpen] = useState(false)
+  const [shareModel, setShareModel] = useState(false)
   const [anchorEl, setAnchorEl] = useState(null);
   const open = Boolean(anchorEl);
 
@@ -25,6 +29,7 @@ const Blog = ({ blog, onload }) => {
         setLiked(true)
       }
     }
+    // eslint-disable-next-line
   }, [])
 
   const NavigateToBlogPage = () => {
@@ -80,12 +85,36 @@ const Blog = ({ blog, onload }) => {
     setAnchorEl(null);
   };
 
+  const handleEdit = () => {
+    handleClose()
+    setIsFormOpen(true)
+  };
+
   const handleClick = (event) => {
     setAnchorEl(event.currentTarget);
   };
 
+  const AddModelOpenClose = () => {
+    setIsFormOpen(false)
+  }
+
+  const onClickShareModelOpen = () => {
+    setShareModel(true)
+  }
+
+  const onClickShareModelClose = () => {
+    setShareModel(false)
+  }
+
   return (
     <Card>
+      <AddBlogForm
+        open={isFormOpen}
+        handleClose={AddModelOpenClose}
+        title="Edit Blog"
+        onLoad={onload}
+        singleData={blog}
+      />
       <CardActions>
         <Box sx={{ display: "flex", width: "100%", alignItems: 'center', gridGap: 10 }}>
           <Avatar>{capitalizeFirstLetter(blog?.authorname)}</Avatar>
@@ -121,7 +150,7 @@ const Blog = ({ blog, onload }) => {
           <MenuItem onClick={handleClose}>Report</MenuItem>
           {blog?.author === userData?._id &&
             <>
-              <MenuItem onClick={handleClose}>Edit</MenuItem>
+              <MenuItem onClick={() => handleEdit()}>Edit</MenuItem>
               <MenuItem onClick={() => handleOnDelete(blog?._id)}>Delete</MenuItem>
             </>
           }
@@ -188,10 +217,11 @@ const Blog = ({ blog, onload }) => {
               <ChatBubbleOutlineIcon />
             </IconButton>
           </Box>
-          <IconButton>
+          <IconButton onClick={onClickShareModelOpen}>
             <ShareIcon />
           </IconButton>
         </Box>
+        <ShareBox open={shareModel} onClose={onClickShareModelClose} blogData={blog}/>
       </CardActions>
     </Card >
   );
