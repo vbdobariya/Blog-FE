@@ -26,7 +26,7 @@ export const getBlogById = async (id) => {
 
 // Create a blog
 export const createBlog = async (blogData) => {
-  const token = localStorage.getItem("authtoken") ?? localStorage.getItem("adminauthtoken");
+  const token = localStorage.getItem("authtoken") || localStorage.getItem("adminauthtoken");
   try {
     const response = await axios.post(API_URL, blogData, {
       headers: {
@@ -44,7 +44,7 @@ export const createBlog = async (blogData) => {
 
 // Update a blog
 export const updateBlog = async (id, blogData) => {
-  const token = localStorage.getItem("authtoken") ?? localStorage.getItem("adminauthtoken");
+  const token = localStorage.getItem("authtoken") || localStorage.getItem("adminauthtoken");
   try {
     const response = await axios.put(`${API_URL}/${id}`, blogData, {
       headers: {
@@ -61,7 +61,7 @@ export const updateBlog = async (id, blogData) => {
 
 // Delete a blog
 export const deleteBlog = async (id) => {
-  const token = localStorage.getItem("authtoken") ?? localStorage.getItem("adminauthtoken");
+  const token = localStorage.getItem("authtoken") || localStorage.getItem("adminauthtoken");
   try {
     await axios.delete(`${API_URL}/${id}`, {
       headers: {

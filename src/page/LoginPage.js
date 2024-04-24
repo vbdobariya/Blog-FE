@@ -50,6 +50,8 @@ const LoginPage = () => {
   const localData = JSON.parse(localStorage.getItem("rememberMe"))
 
   useEffect(() => {
+    localStorage.removeItem("adminauthtoken")
+    localStorage.removeItem("authtoken")
     if (location.pathname !== "/admin/login") {
       if (localData?.checked) {
         setChecked(localData?.checked)
